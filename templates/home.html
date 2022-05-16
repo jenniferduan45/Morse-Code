@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<div id="home_page_container" class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="home_page_title">
+                Morse Code
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <div id="home_page_img">
+                <img src="https://cdn-icons-png.flaticon.com/512/926/926517.png" id="morse_code_image" alt="Home page image">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div data-href="/info"  class="transition_button">
+                <div class="transition_link">Morse Code Info</div>
+            </div>
+            <hr class="separation-line">
+            <div data-href="/learn" class="transition_button">
+                <div class="transition_link">Learn</div>
+            </div>
+            <div data-href="/flashcards" class="transition_button">
+                <div class="transition_link">Flashcards</div>
+            </div>
+            <hr class="separation-line">
+            <div data-href="/quiz" class="transition_button">
+                <div class="transition_link">Test</div>
+            </div>
+            {% if answers_given %}
+            <div data-href="/result" class="transition_button">
+                <div data-href="/result" class="transition_link">Results</div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

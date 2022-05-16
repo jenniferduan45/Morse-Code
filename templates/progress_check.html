@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% include 'common.html'%}
+{% import "audio.html" as audio %}
+{% import "symbols.html" as symbols %}
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'progress_check.js') }}"></script>
+
+<script>
+    let progress_check = {{progress_check|tojson}}
+    let letter_symbols = {{letters2symbols(progress_check.letter)|tojson}}
+    console.log(progress_check)
+</script>
+
+<div id="learn_page_container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="progress_check_title">
+                Progress Check
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {% if progress_check.is_audio == True %}
+            <div id="progress_check_audio">
+                {{ audio.make_audio() }}
+            </div>
+            {% else %}
+            <div id="progress_check_symbol">
+                {{ symbols.make_symbols(letters2symbols(progress_check.letter)) }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="options_container">
+                <div class="progress_check_options">
+                    <button id="option1">{{progress_check.options[0]}}</button>
+                </div>
+                <div class="progress_check_options">
+                    <button id="option2">{{progress_check.options[1]}}</button>
+                </div>
+                <div class="progress_check_options">
+                    <button id="option3">{{progress_check.options[2]}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="progress_check_result">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8"></div>
+        <div class="col-md-2">
+            <div id="learn_transit">
+                {% if progress_check.lesson_id == 20 %}
+                <div id="learn_finished" class="transition_button" data-href="/">
+                    <div class="transition_link">Finished</div><br>
+                </div>
+                {% else %}
+                <div class="transition_button" data-href="/learn/{{progress_check.next_lesson}}">
+                    <div class="transition_link">Next</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

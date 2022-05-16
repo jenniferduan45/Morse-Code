@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% include 'common.html'%}
+
+        {% import 'audio.html' as audio %}
+        {% import 'symbols.html' as symbols %}
+
+        <!-- Static CSS -->
+        <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+
+        <script>
+            let quiz = {{quiz|tojson}}
+            let letter_symbols = {{letters2symbols(quiz.word)|tojson}}
+        </script>
+
+        <script type="text/javascript" src="{{ url_for('static', filename = 'quiz.js') }}"></script>
+
+        <div class="container-fluid main-container">  
+            <div class="row" id="first-row">   
+                <div class="col-8">
+                    <h1 class="question-prompt">Translate <b>{{quiz.from}}</b> to
+                        <b>{{quiz.to}}</b></h1>
+                </div>
+                <div class="col-4">
+                    {% if not answer %}
+                    <h3 id="progress"><b>{{quiz.quiz_id + 1 }}/{{ quizzes|length }}</b></h3>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">   
+                <div class="col-12 center">
+                    {% if quiz.from == "audio" %}
+                    {{ audio.make_audio() }}
+                    {% elif quiz.from == "text" %}
+                    <div class="quiz-word"> {{quiz.word}} </div>
+                    {% else %}
+                    {{ symbols.make_symbols(letters2symbols(quiz.word)) }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row last-row">   
+                <div class="col-11">
+                    {% if quiz.from == "audio" and quiz.to == "text"%}
+                        <span class="input-label">Symbols</span>
+                        <div class="answerbox" id="imageAnswer">
+                            {{ symbols.make_symbols(answer["symbol_answer"]) }}
+                        </div>
+                        {% if answer.is_correct == 0 %}
+                        <span class="input-label">Correct Answer: </span>
+                        <div class="correct-answer">
+                            <div class="answerbox correct-answer">
+                                {{ symbols.make_symbols(letters2symbols(quiz.word))}}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endif %}          
+
+                    {% if quiz.to == "text" %}
+                        <span class="input-label">Text</span>
+                        <div class="answerbox" id="textInput">
+                            <div>{{answer.text_answer}}</div>
+                        </div> 
+                        {% if answer.is_correct == 0 %}
+                            <span class="input-label">Correct Answer</span>
+                            <div class="correct-answer answerbox">
+                                <div>{{quiz.word}}</div>
+                            </div>
+                        {% endif %}
+                    {% else %}  
+                        <span class="input-label">Symbols</span>
+                        <div class="answerbox" id="imageAnswer">
+                            {{ symbols.make_symbols(answer["symbol_answer"]) }}
+                        </div>
+                        {% if answer.is_correct == 0 %}
+                        <span class="input-label">Correct Answer: </span>
+                        <div class="answerbox correct-answer">
+                            <div>
+                                {{ symbols.make_symbols(letters2symbols(quiz.word))}}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

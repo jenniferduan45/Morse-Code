@@ -1,0 +1,15 @@
+{% macro make_symbols(letters) -%}
+<div class='word-container'> 
+{% for letter_symbols in letters %}
+    <div class='letter-container'>
+    {% for symbol in letter_symbols %}
+        {% if symbol == "DOT" %}
+            <img class='symbols' src={{url_for('static', filename='dot.png')}}>
+         {% else %}
+            <img class='symbols' src={{url_for('static', filename='dash.png')}}>
+         {% endif %}
+    {% endfor %}
+    </div>
+{% endfor %}
+</div>
+{%- endmacro %}

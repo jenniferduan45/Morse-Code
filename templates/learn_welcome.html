@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="learn_welcome_container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-4">
+            <div id="learn_welcome_img">
+                <img src="https://cdn-icons-png.flaticon.com/512/926/926517.png" id="morse_code_image_welcome" alt="Welcome page image">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div id="learn_welcome_intro">
+                <div id="learn_welcome_text">
+                    In this section you will learn 10 letters and complete intermittent progress checks
+                </div>
+                <div class="transition_button" data-href="/learn/1">
+                    <div class="transition_link">Begin</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+{% endblock %}

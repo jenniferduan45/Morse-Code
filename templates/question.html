@@ -1,0 +1,89 @@
+{% include 'common.html'%}
+
+{% import 'audio.html' as audio %}
+{% import 'symbols.html' as symbols %}
+
+<!-- Static CSS -->
+<link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+
+<script>
+    let quiz = {{quiz|tojson}}
+    let letter_symbols = {{letters2symbols(quiz.word)|tojson}}
+</script>
+
+<script type="text/javascript" src="{{ url_for('static', filename = 'quiz.js') }}"></script>
+
+<div class="container-fluid main-container">  
+    <div class="row" id="first-row">   
+        <div class="col-8 main-column">
+            <h1 class="question-prompt">Translate <b>{{quiz.from}}</b> to
+                <b>{{quiz.to}}</b></h1>
+        </div>
+        <div class="col-4">
+            <h3 id="progress"><b>{{quiz.quiz_id + 1 }}/{{ quizzes|length }}</b></h3>
+        </div>
+    </div>
+    <div class="row">   
+        <div class="col-8 main-column center">
+            {% if quiz.from == "audio" %}
+                {{ audio.make_audio() }}
+            {% elif quiz.from == "text" %}
+            <div class="quiz-word"> {{quiz.word}} </div>
+            {% else %}
+            {{ symbols.make_symbols(letters2symbols(quiz.word)) }}
+            {% endif %}
+        </div>
+        <div class="col-4" id="symbols-container">
+            {% if (quiz.from == "audio" or quiz.to == "symbol") %}
+                <div id="dot" class="symbol-button" data-symbol="dot">
+                    <img class="symbols" src="{{url_for('static', filename='dot.png')}}">
+                    <div class="button-description">DOT</div>
+                </div>
+                <div id="dash" class="symbol-button" data-symbol="dash">
+                    <img class="symbols" src="{{url_for('static', filename='dash.png')}}">
+                    <div class="button-description">DASH</div>
+                </div>
+                <br>
+                <div id="space" class="symbol-button">
+                    <img class="symbols" src="{{url_for('static',
+                    filename='space.png')}}">
+                    <div class="button-description">SPACE</div>
+                </div>
+                <div id="clear_all" class="symbol-button">
+                    <img class="symbols" src="{{url_for('static',
+                    filename='clear.png')}}">
+                    <div class="button-description">CLEAR</div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row last-row">   
+        <div class="col-8 main-column">
+            {% if quiz.from == "audio" and quiz.to == "text"%}
+            <span class="input-label">Symbols</span>
+            <div class="answerbox" id="imageAnswer">
+            </div>
+            {% endif %}          
+            
+            {% if quiz.to == "text" %}
+                <span class="input-label">Text</span>
+                <div class="answerbox" id="textInput">
+                    <input name="answerInput" type="text" id="answerInput"
+                                                          placeholder="Type your answer here">
+                </div> 
+            {% else %}  
+                <span class="input-label">Symbols</span>
+                <div class="answerbox" id="imageAnswer">
+                </div>
+            {% endif %}
+        </div>
+        <!-- <div class="col-4"></div> -->
+        <!-- <div class="col-8"></div> -->
+        <div class="col-2">
+            <div class="transition_button">
+                <div id="submit" class="transition_link">Next</div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>

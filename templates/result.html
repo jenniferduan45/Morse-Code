@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container-fluid">  
+    <div class="row">   
+        <div id="quiz-view" class="col-10 main-column">
+            <iframe src="/answer/{{quiz_id}}" title="question-view" width="100%" height="100%"></iframe>
+        </div>
+        <div class="col-2">
+            <div class="row" id="score">
+                Score: 
+                {{ quiz_answers.values()|sum(attribute="is_correct") }} / {{ quizzes|length }}
+            </div>
+
+            <div class="row">
+                {% for qid in quizzes %}
+                <div class="col-12 question-navigator-container">
+                    <a href="/result/{{qid}}" class="question-navigator">
+                        {% if qid == quiz_id %}
+                            <h2 class="current-question">Question {{ qid + 1 }}</h2>  
+                        {% else %}
+                            <h2>Question {{ qid + 1 }}</h2>
+                        {% endif %}
+                        {% if quiz_answers.get(qid).is_correct == 1 %}
+                            <img id="green_tick"src="/static/green_tick.png" alt="green_tick">
+                        {% else %}
+                            <img id="red_cross" src="/static/red_cross.png" alt="red_cross">
+                        {% endif %}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div id="retake-container" class="col-12 transition_button" data-href="/quiz">
+                    <div class="transition_link"> Retake </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

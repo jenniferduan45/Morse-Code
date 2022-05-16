@@ -1,0 +1,46 @@
+<!-- Static CSS -->
+<link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>  
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<!-- Static JS -->
+<script src="{{url_for('static', filename='common.js')}}"></script>
+
+{% include 'common.html'%}
+{% import "audio.html" as audio %}
+{% import "symbols.html" as symbols %}
+
+<script>
+    let lessons = {{lessons|tojson}}
+    let letter_symbols = {{letters2symbols(lessons.letter)|tojson}}
+    console.log(lessons)
+</script>
+
+
+<div id="learn_page_container" class = "background" >
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-5">
+            <div id="learn_letter">
+                {{lessons.letter}}
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div id="learn_audio">
+                {{ audio.make_audio() }}
+            </div>
+            <div id="learn_symbol">
+                {{ symbols.make_symbols(letters2symbols(lessons.letter)) }}
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
